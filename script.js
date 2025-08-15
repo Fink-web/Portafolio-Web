@@ -119,7 +119,7 @@ contactForm.addEventListener('submit', async (e) => {
     };
 
     try {
-        const response = await fetch("https://formspree.io/f/mqaljyjl", {
+        const response = await fetch("https://formspree.io/f/mqaljyjl/json", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -143,3 +143,4 @@ contactForm.addEventListener('submit', async (e) => {
         submitButton.textContent = 'Enviar Mensaje';
     }
 });
+
