@@ -95,50 +95,40 @@
             document.querySelector('.hero-image').style.animation = 'fadeInUp 1s ease 0.3s forwards';
         });
 // Form submission
-const contactForm = document.querySelector('.contact-form form');
+const contactForm = document.getElementById('contactForm');
 
 contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Deshabilita el botón para evitar múltiples envíos
     const submitButton = contactForm.querySelector('button[type="submit"]');
     submitButton.disabled = true;
     submitButton.textContent = 'Enviando...';
 
-    // Obtiene los datos del formulario
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
-
-    const formData = {
-        name: name,
-        email: email,
-        subject: subject,
-        message: message
-    };
-
     try {
-        const response = await fetch("https://formspree.io/f/mqaljyjl/json", {
+        const formData = new FormData(contactForm);
+        const response = await fetch("https://formspree.io/f/mqaljyjl", {
             method: 'POST',
+            body: formData,
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+                'Accept': 'application/json'
+            }
         });
 
         if (response.ok) {
             alert('¡Gracias por tu mensaje! Me pondré en contacto contigo pronto.');
-            contactForm.reset(); // Limpia el formulario
+            contactForm.reset();
         } else {
-            const data = await response.json();
-            alert(`Hubo un error: ${data.errors.map(err => err.message).join(', ')}`);
+            const errorData = await response.json();
+            if (errorData.errors) {
+                alert(`Error: ${errorData.errors.map(err => err.message).join(', ')}`);
+            } else {
+                alert('Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.');
+            }
         }
     } catch (error) {
-        console.error('Error en el envío:', error);
+        console.error('Error:', error);
         alert('Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo.');
     } finally {
-        // Vuelve a habilitar el botón después del envío (éxito o fracaso)
         submitButton.disabled = false;
         submitButton.textContent = 'Enviar Mensaje';
     }
