@@ -94,3 +94,52 @@
             document.querySelector('.hero-content').style.animation = 'fadeInUp 1s ease forwards';
             document.querySelector('.hero-image').style.animation = 'fadeInUp 1s ease 0.3s forwards';
         });
+// Form submission
+const contactForm = document.querySelector('.contact-form form');
+
+contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Deshabilita el botón para evitar múltiples envíos
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+
+    // Obtiene los datos del formulario
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    const formData = {
+        name: name,
+        email: email,
+        subject: subject,
+        message: message
+    };
+
+    try {
+        const response = await fetch("https://formspree.io/f/mqaljyjl", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert('¡Gracias por tu mensaje! Me pondré en contacto contigo pronto.');
+            contactForm.reset(); // Limpia el formulario
+        } else {
+            const data = await response.json();
+            alert(`Hubo un error: ${data.errors.map(err => err.message).join(', ')}`);
+        }
+    } catch (error) {
+        console.error('Error en el envío:', error);
+        alert('Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo.');
+    } finally {
+        // Vuelve a habilitar el botón después del envío (éxito o fracaso)
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar Mensaje';
+    }
+});
