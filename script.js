@@ -115,19 +115,19 @@ contactForm.addEventListener('submit', async (e) => {
         });
 
         if (response.ok) {
-            alert('¡Gracias por tu mensaje! Me pondré en contacto contigo pronto.');
+            alert('¡Mensaje enviado con éxito! Te responderé pronto.');
             contactForm.reset();
         } else {
             const errorData = await response.json();
             if (errorData.errors) {
                 alert(`Error: ${errorData.errors.map(err => err.message).join(', ')}`);
             } else {
-                alert('Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.');
+                alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo.');
             }
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo.');
+        alert('Error de conexión. Por favor, revisa tu conexión a internet.');
     } finally {
         submitButton.disabled = false;
         submitButton.textContent = 'Enviar Mensaje';
