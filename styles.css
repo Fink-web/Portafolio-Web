@@ -11,20 +11,7 @@
   --accent: #8b5cf6;           /* Violet */
   --accent-dark: #7c3aed;      /* Violet Dark */
   
-  /* === PALETAS ALTERNATIVAS (comentadas) === */
-  /* Opción 1: Neón Tech
-  --primary: #00d9ff;
-  --primary-dark: #0099cc;
-  --secondary: #00ff88;
-  --secondary-dark: #00cc6a;
-  */
-  
-  /* Opción 2: Deep Blue + Gold
-  --primary: #1e3a8a;
-  --primary-dark: #1e40af;
-  --secondary: #f59e0b;
-  --secondary-dark: #d97706;
-  */
+
   
   /* === NEUTRALES === */
   --white: #ffffff;
